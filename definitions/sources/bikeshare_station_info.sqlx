@@ -7,7 +7,7 @@ config {
 
 config {
     type: "table",
-    description: "Description of the record",
+    description: "Bike station information table.",
     columns: {
         station_id: "Station's ID",
         name: "Station's name",
