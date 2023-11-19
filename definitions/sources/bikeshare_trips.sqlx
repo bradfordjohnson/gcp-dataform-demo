@@ -1,0 +1,39 @@
+config {
+    type: "declaration",
+    database: "ford-johnson",
+    schema: "dataform",
+    name: "bikeshare_trips",
+}
+
+config {
+    type: "table",
+    description: "Trip table.",
+    columns: {
+        trip_id: "Numeric ID of bike trip",
+        duration_sec: "Time of trip in seconds",
+        start_date: "Start date of trip with date and time, in PST",
+        start_station_name: "Station name of start station",
+        start_station_id: "Numeric reference for start station",
+        end_date: "End date of trip with date and time, in PST",
+        end_station_name: "Station name for end station",
+        end_station_id: "Numeric reference for end station",
+        bike_number: "ID of bike used",
+        zip_code: "Home zip code of subscriber (customers can choose to manually enter zip at kiosk however data is unreliable)",
+        subscriber_type: "Subscriber = annual or 30-day member; Customer = 24-hour or 3-day member",
+        c_subscription_type: "",
+        start_station_latitude: "",
+        start_station_longitude: "",
+        end_station_latitude: "",
+        end_station_longitude: "",
+        member_birth_year: "",
+        member_gender: "",
+        bike_share_for_all_trip: "",
+        start_station_geom: "",
+        end_station_geom: ""
+    }
+}
+
+SELECT
+  *
+FROM
+  `bigquery-public-data.san_francisco_bikeshare.bikeshare_trips`

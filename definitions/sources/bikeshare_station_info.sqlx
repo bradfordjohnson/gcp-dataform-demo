@@ -1,0 +1,30 @@
+config {
+    type: "declaration",
+    database: "ford-johnson",
+    schema: "dataform",
+    name: "bikeshare_station_info",
+}
+
+config {
+    type: "table",
+    description: "Bike station information table.",
+    columns: {
+        station_id: "Station's ID",
+        name: "Station's name",
+        short_name: "Shortened name",
+        lat: "Station's latitude",
+        lon: "Station's longitude",
+        region_id: "Region ID",
+        rental_methods: "Array of payment methods accepted",
+        capacity: "Number of total docking points installed at station. Available and not.",
+        external_id: "",
+        eightd_has_key_dispenser: "",
+        has_kiosk: "",
+        station_geom: ""
+    }
+}
+
+SELECT
+  *
+FROM
+  `bigquery-public-data.san_francisco_bikeshare.bikeshare_station_info`
