@@ -1,0 +1,65 @@
+config {
+    type: "declaration",
+    database: "ford-johnson",
+    schema: "dataform",
+    name: "stations",
+}
+
+config {
+    type: "view",
+    description: "Stations breakdown",
+    columns: {
+        station_id: "Station's ID",
+        start_count: "Number of rides started at this station",
+        end_count: "Number of rides ended at this station",
+        round_trip_count: "Number of rides started and ended at this station"
+    },
+    dependencies: ["bikeshare_trips", "bikeshare_station_info"]
+}
+
+WITH
+  TripCounts AS (
+  SELECT
+    start_station_id AS station_id,
+    COUNT(trip_id) AS start_count
+  FROM
+    ${ref("bikeshare_trips")}
+  GROUP BY
+    start_station_id ),
+  EndCounts AS (
+  SELECT
+    end_station_id AS station_id,
+    COUNT(trip_id) AS end_count
+  FROM
+    ${ref("bikeshare_trips")}
+  GROUP BY
+    end_station_id ),
+  RoundTripCounts AS (
+  SELECT
+    start_station_id AS station_id,
+    COUNT(trip_id) AS round_trip_count
+  FROM
+    ${ref("bikeshare_trips")}
+  WHERE
+    start_station_id = end_station_id
+  GROUP BY
+    start_station_id )
+SELECT
+  s.station_id,
+  COALESCE(tc.start_count, 0) AS start_count,
+  COALESCE(ec.end_count, 0) AS end_count,
+  COALESCE(rc.round_trip_count, 0) AS round_trip_count
+FROM
+  ${ref("bikeshare_station_info")} AS s
+LEFT JOIN
+  TripCounts AS tc
+ON
+  CAST(s.station_id AS INT) = tc.station_id
+LEFT JOIN
+  EndCounts AS ec
+ON
+  CAST(s.station_id AS INT) = ec.station_id
+LEFT JOIN
+  RoundTripCounts AS rc
+ON
+  CAST(s.station_id AS INT) = rc.station_id
