@@ -1,0 +1,6 @@
+config {
+    type: "declaration",
+    database: "ford-johnson",
+    schema: "dataform",
+    name: "target_terms",
+}
