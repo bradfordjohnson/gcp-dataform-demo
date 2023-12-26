@@ -1,0 +1,18 @@
+config {
+    type: "view"
+}
+
+WITH
+  TargetTerms AS (
+  SELECT
+    target_term
+  FROM
+    ${ref("target_terms")} )
+SELECT
+  tr.*
+FROM
+  ${ref("top_terms")} AS tr
+INNER JOIN
+  TargetTerms AS tt
+ON
+  LOWER(TRIM(tr.term)) = LOWER(TRIM(tt.target_term))
